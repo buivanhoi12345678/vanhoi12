@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Tiệm Bánh Ngọt • Quản lý tài khoản</title>
+  <title>Tiệm Bánh Ngọt • Quản lý tài khoản & Bánh</title>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
@@ -20,12 +20,13 @@
       --radius:18px;
       --shadow: 0 18px 40px rgba(16,24,40,0.08);
       --glass: rgba(255,255,255,0.6);
+      --success: #4CAF50;
+      --error: #f44336;
     }
 
     *{box-sizing:border-box}
-    html,body{height:100%}
+    html,body{height:100%; margin:0; padding:0;}
     body{
-      margin:0;
       font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
       background:
         radial-gradient(600px 300px at 10% 10%, rgba(255,222,235,0.45), transparent 15%),
@@ -34,20 +35,21 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:32px;
+      padding:20px;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
+      min-height: 100vh;
     }
 
     /* Layout */
     .stage {
-      width:1040px;
-      max-width:100%;
+      width:100%;
+      max-width:1200px;
       display:grid;
       grid-template-columns: 460px 1fr;
       gap:28px;
       align-items:stretch;
-      padding:24px;
+      padding:20px;
     }
 
     /* LEFT - visual */
@@ -58,10 +60,11 @@
       box-shadow: var(--shadow);
       position:relative;
       overflow:hidden;
-      min-height:560px;
+      min-height:600px;
       display:flex;
       flex-direction:column;
       gap:18px;
+      backdrop-filter: blur(10px);
     }
     .brand{
       display:flex;
@@ -74,6 +77,11 @@
       display:flex;align-items:center;justify-content:center;
       color:#fff;font-family:'Dancing Script';font-size:28px;font-weight:700;
       box-shadow: 0 10px 30px rgba(255,130,170,0.12);
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
     }
     .brand h1{margin:0;font-size:20px}
     .tag{color:var(--muted); font-size:13px}
@@ -91,6 +99,12 @@
       position:relative;
       display:flex;align-items:center;justify-content:center;
       transform: rotate(-2deg);
+      animation: rotate 20s linear infinite;
+    }
+    @keyframes rotate {
+      0% { transform: rotate(-2deg); }
+      50% { transform: rotate(2deg); }
+      100% { transform: rotate(-2deg); }
     }
     .cakePlate{
       width:180px;height:100px;border-radius:90px;background:linear-gradient(180deg,#fff8f9,#ffeef4);
@@ -111,15 +125,16 @@
       border-radius: var(--radius);
       padding:26px;
       box-shadow: var(--shadow);
-      min-height:560px;
+      min-height:600px;
       display:flex;
       flex-direction:column;
       gap:12px;
       position:relative;
       overflow:hidden;
+      backdrop-filter: blur(10px);
     }
 
-    .topRow{ display:flex; justify-content:space-between; align-items:center; gap:10px; }
+    .topRow{ display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap: wrap; }
     .topRow .title{ font-weight:700; color:#4b3a44; font-size:18px }
     .tabs{ display:flex; gap:8px; align-items:center; flex-wrap: wrap; }
     .tab{
@@ -128,29 +143,56 @@
       transition: all .22s ease;
     }
     .tab.active{ background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; box-shadow: 0 10px 30px rgba(255,140,190,0.12); transform:translateY(-2px) }
+    .tab:hover:not(.active) { background: rgba(255,134,177,0.1); }
 
-    form{ display:grid; gap:10px; margin-top:6px; }
+    form{ display:grid; gap:12px; margin-top:6px; }
     .row{ display:flex; gap:10px; }
-    input[type="text"], input[type="email"], input[type="password"], input[type="url"]{
-      width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(20,20,20,0.06);
-      background:transparent; outline:none; font-size:14px;
-      transition: box-shadow .18s ease, transform .12s;
+    input[type="text"], input[type="email"], input[type="password"], input[type="url"], input[type="number"], textarea{
+      width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(20,20,20,0.1);
+      background:rgba(255,255,255,0.7); outline:none; font-size:14px;
+      transition: all .18s ease;
+      font-family: 'Poppins', sans-serif;
     }
-    input:focus{ box-shadow: 0 8px 22px rgba(16,24,40,0.06); transform:translateY(-2px) }
+    input:focus, textarea:focus, select:focus{ 
+      box-shadow: 0 8px 22px rgba(16,24,40,0.06); 
+      transform:translateY(-2px);
+      border-color: var(--accent1);
+    }
+    
+    select {
+      width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(20,20,20,0.1);
+      background:rgba(255,255,255,0.7); outline:none; font-size:14px;
+      transition: all .18s ease;
+      font-family: 'Poppins', sans-serif;
+    }
 
     .btnPrimary{
       padding:12px 14px; border-radius:12px; border:none; cursor:pointer; font-weight:800; letter-spacing:.3px;
       background: linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; box-shadow: 0 12px 30px rgba(255,140,190,0.12);
-      transition: transform .12s ease, box-shadow .12s;
+      transition: all .22s ease;
+      font-family: 'Poppins', sans-serif;
     }
-    .btnPrimary:active{ transform:translateY(2px) }
+    .btnPrimary:hover:not(:disabled) { transform:translateY(-2px); box-shadow: 0 16px 40px rgba(255,140,190,0.2); }
+    .btnPrimary:active{ transform:translateY(1px) }
+    .btnPrimary:disabled { opacity: 0.6; cursor: not-allowed; }
     
     .btnSecondary{
       padding:12px 14px; border-radius:12px; border:none; cursor:pointer; font-weight:800; letter-spacing:.3px;
       background: linear-gradient(90deg,var(--accent3),var(--accent1)); color:white; box-shadow: 0 12px 30px rgba(217,179,255,0.12);
-      transition: transform .12s ease, box-shadow .12s;
+      transition: all .22s ease;
+      font-family: 'Poppins', sans-serif;
     }
-    .btnSecondary:active{ transform:translateY(2px) }
+    .btnSecondary:hover:not(:disabled) { transform:translateY(-2px); box-shadow: 0 16px 40px rgba(217,179,255,0.2); }
+    .btnSecondary:active{ transform:translateY(1px) }
+    
+    .btnOutline{
+      padding:10px 14px; border-radius:12px; border:1px solid var(--accent1); cursor:pointer; font-weight:600; letter-spacing:.3px;
+      background: transparent; color:var(--accent1); font-size: 12px;
+      transition: all .22s ease;
+      font-family: 'Poppins', sans-serif;
+    }
+    .btnOutline:hover:not(:disabled) { background: var(--accent1); color:white; transform:translateY(-1px); }
+    .btnOutline:active{ transform:translateY(1px) }
 
     .muted{ color:var(--muted); font-size:13px; text-align:center }
 
@@ -158,7 +200,9 @@
     .avatar{
       width:120px;height:120px;border-radius:18px; overflow:hidden; display:flex; align-items:center; justify-content:center;
       background:linear-gradient(90deg,#fff,#fff1); box-shadow: 0 12px 30px rgba(16,24,40,0.06);
+      transition: transform .3s ease;
     }
+    .avatar:hover { transform: scale(1.05); }
     .avatar img{ width:100%; height:100%; object-fit:cover; display:block }
     .meta{ text-align:center }
     .meta h3{ margin:6px 0 0; font-size:18px }
@@ -167,14 +211,137 @@
     .profileActions{ width:100%; display:flex; gap:10px; margin-top:8px; flex-wrap: wrap; }
     .profileActions button{ flex: 1; min-width: 120px; }
 
+    /* Cake Grid */
+    .cakeGrid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
+      gap: 16px; 
+      margin-top: 16px;
+      max-height: 400px;
+      overflow-y: auto;
+      padding: 5px;
+    }
+    .cakeCardItem { 
+      background: white; 
+      border-radius: var(--radius); 
+      padding: 16px; 
+      box-shadow: var(--shadow);
+      display: flex; 
+      flex-direction: column; 
+      transition: all .3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .cakeCardItem:hover { 
+      transform: translateY(-4px); 
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+    .cakeCardItem::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    }
+    .cakeImage { 
+      width: 100%; 
+      height: 120px; 
+      object-fit: cover; 
+      border-radius: 12px; 
+      margin-bottom: 12px;
+      transition: transform .3s ease;
+    }
+    .cakeCardItem:hover .cakeImage {
+      transform: scale(1.05);
+    }
+    .cakeName { font-weight: 700; margin: 0 0 8px; font-size: 16px; line-height: 1.2; }
+    .cakeCategory { color: var(--muted); font-size: 12px; margin: 0 0 8px; }
+    .cakePrice { font-weight: 700; color: var(--accent1); margin: 0 0 8px; }
+    .cakeActions { display: flex; gap: 8px; margin-top: auto; }
+    .cakeActions button { flex: 1; padding: 8px; font-size: 12px; }
+
+    /* Search Form */
+    .searchForm { display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-bottom: 16px; }
+    .searchForm input { margin-bottom: 0; }
+
+    /* Filter Options */
+    .filterOptions {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    /* Pagination */
+    .pagination { 
+      display: flex; 
+      justify-content: center; 
+      gap: 8px; 
+      margin-top: 20px; 
+      flex-wrap: wrap;
+    }
+    .pagination button { 
+      padding: 8px 12px; 
+      border-radius: 8px; 
+      border: 1px solid rgba(0,0,0,0.1); 
+      background: white; 
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+    .pagination button.active { 
+      background: var(--accent1); 
+      color: white; 
+      border-color: var(--accent1); 
+    }
+    .pagination button:hover:not(.active):not(:disabled) {
+      background: rgba(255,134,177,0.1);
+    }
+    .pagination button:disabled { 
+      opacity: 0.5; 
+      cursor: not-allowed; 
+    }
+
+    /* Loading Spinner */
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
     /* toast */
     .toast{
-      position: fixed; right:20px; bottom:20px; min-width:240px; padding:12px 16px; border-radius:12px;
-      background:linear-gradient(90deg,#2a2a2a,#3a3a3a); color:white; box-shadow:0 10px 30px rgba(0,0,0,0.25); opacity:0; transform:translateY(12px);
+      position: fixed; 
+      right:20px; 
+      bottom:20px; 
+      min-width:280px; 
+      padding:14px 18px; 
+      border-radius:12px;
+      background:linear-gradient(90deg,#2a2a2a,#3a3a3a); 
+      color:white; 
+      box-shadow:0 10px 30px rgba(0,0,0,0.25); 
+      opacity:0; 
+      transform:translateY(12px);
       transition: all .36s cubic-bezier(.2,.9,.3,1);
       z-index:9999;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
+    .toast.success { background: linear-gradient(90deg, var(--success), #45a049); }
+    .toast.error { background: linear-gradient(90deg, var(--error), #d32f2f); }
     .toast.show{ opacity:1; transform:translateY(0) }
+    .toast-icon {
+      font-size: 18px;
+    }
     
     /* Modal */
     .modal-overlay {
@@ -191,6 +358,7 @@
       opacity: 0;
       visibility: hidden;
       transition: all 0.3s ease;
+      backdrop-filter: blur(5px);
     }
     
     .modal-overlay.active {
@@ -205,12 +373,14 @@
       width: 90%;
       max-width: 500px;
       box-shadow: var(--shadow);
-      transform: translateY(20px);
-      transition: transform 0.3s ease;
+      transform: translateY(20px) scale(0.95);
+      transition: all 0.3s ease;
+      max-height: 90vh;
+      overflow-y: auto;
     }
     
     .modal-overlay.active .modal {
-      transform: translateY(0);
+      transform: translateY(0) scale(1);
     }
     
     .modal-header {
@@ -218,6 +388,8 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 16px;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      padding-bottom: 12px;
     }
     
     .modal-title {
@@ -233,7 +405,9 @@
       font-size: 24px;
       cursor: pointer;
       color: var(--muted);
+      transition: color .2s ease;
     }
+    .modal-close:hover { color: var(--accent1); }
     
     .modal-body {
       margin-bottom: 20px;
@@ -245,13 +419,38 @@
       justify-content: flex-end;
     }
 
+    /* Panel transitions */
+    .panel {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     /* small screens */
     @media (max-width:980px){
-      .stage{ grid-template-columns: 1fr; padding:18px; gap:16px; }
-      .showcase{ order:2 }
-      .card{ order:1 }
+      .stage{ 
+        grid-template-columns: 1fr; 
+        padding:10px; 
+        gap:16px; 
+      }
+      .showcase{ order:2; min-height: 400px; }
+      .card{ order:1; min-height: 500px; }
       .row{ flex-direction: column; }
       .profileActions{ flex-direction: column; }
+      .cakeGrid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+      .filterOptions { grid-template-columns: 1fr; }
+      .tabs { justify-content: center; }
+      .topRow { justify-content: center; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      .stage { padding: 5px; }
+      .showcase, .card { padding: 16px; }
+      .cakeGrid { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
@@ -280,7 +479,7 @@
       </div>
 
       <div class="showcaseNote">
-        Giao diện này dùng <strong>4 API</strong>: đăng ký, đăng nhập, lấy profile và cập nhật thông tin.
+        Giao diện này tích hợp đầy đủ các API: đăng ký, đăng nhập, quản lý profile và quản lý bánh ngọt.
         Mượt mà, tối giản nhưng sang — phù hợp cho trang quản lý khách hàng tiệm bánh.
       </div>
     </section>
@@ -289,18 +488,16 @@
     <section class="card" role="application" aria-label="Form đăng nhập và quản lý">
       <div class="topRow">
         <div>
-          <div class="title">Quản lý khách hàng</div>
-          <div class="muted">An toàn • Gọn gàng • Nhẹ nhàng</div>
+          <div class="title" id="panel-title">Quản lý khách hàng & Bánh ngọt</div>
+          <div class="muted" id="panel-subtitle">An toàn • Gọn gàng • Nhẹ nhàng</div>
         </div>
-        <div class="tabs" role="tablist" aria-label="Chuyển tab">
-          <button class="tab active" id="tab-register" role="tab" aria-selected="true">Đăng ký</button>
-          <button class="tab" id="tab-login" role="tab">Đăng nhập</button>
-          <button class="tab" id="tab-profile" role="tab">Profile</button>
+        <div class="tabs" role="tablist" aria-label="Chuyển tab" id="tab-container">
+          <!-- Tabs sẽ được cập nhật động dựa trên trạng thái đăng nhập -->
         </div>
       </div>
 
       <!-- REGISTER PANEL -->
-      <div id="panel-register" style="display:block;">
+      <div id="panel-register" class="panel">
         <form id="form-register" autocomplete="off">
           <div class="row">
             <input id="reg_username" type="text" placeholder="Tên đăng nhập" required aria-label="Tên đăng nhập">
@@ -315,26 +512,32 @@
             <button type="button" class="btnPrimary" id="btn-avatar-preview">Xem</button>
           </div>
           <div style="display:flex; gap:10px;">
-            <button type="submit" class="btnPrimary" id="btn-register">Tạo tài khoản</button>
+            <button type="submit" class="btnPrimary" id="btn-register">
+              <span id="register-text">Tạo tài khoản</span>
+              <span id="register-spinner" class="spinner" style="display:none;"></span>
+            </button>
           </div>
           <div style="margin-top:6px;" class="muted">Đã có tài khoản? <a href="#" id="lnk-to-login">Đăng nhập</a></div>
         </form>
       </div>
 
       <!-- LOGIN PANEL -->
-      <div id="panel-login" style="display:none;">
+      <div id="panel-login" class="panel">
         <form id="form-login" autocomplete="off">
           <input id="login_username" type="text" placeholder="Tên đăng nhập" required aria-label="Tên đăng nhập">
           <input id="login_password" type="password" placeholder="Mật khẩu" required aria-label="Mật khẩu">
           <div style="display:flex; gap:10px;">
-            <button type="submit" class="btnPrimary" id="btn-login">Đăng nhập</button>
+            <button type="submit" class="btnPrimary" id="btn-login">
+              <span id="login-text">Đăng nhập</span>
+              <span id="login-spinner" class="spinner" style="display:none;"></span>
+            </button>
           </div>
           <div style="margin-top:6px;" class="muted">Chưa có tài khoản? <a href="#" id="lnk-to-register">Đăng ký</a></div>
         </form>
       </div>
 
       <!-- PROFILE PANEL -->
-      <div id="panel-profile" style="display:none;">
+      <div id="panel-profile" class="panel">
         <div class="profileView" id="profileBlock" aria-live="polite">
           <div class="avatar" id="profileAvatar">
             <img src="https://via.placeholder.com/300x300.png?text=Avatar" alt="Avatar người dùng">
@@ -350,6 +553,63 @@
             <button class="btnSecondary" id="btn-change-password">Đổi Mật khẩu</button>
             <button class="btnPrimary" id="btn-logout">Đăng xuất</button>
           </div>
+        </div>
+      </div>
+
+      <!-- CAKES PANEL -->
+      <div id="panel-cakes" class="panel">
+        <div class="topRow">
+          <div>
+            <div class="title">Quản lý Bánh ngọt</div>
+            <div class="muted">Thêm, sửa, xóa và tìm kiếm bánh</div>
+          </div>
+          <button class="btnPrimary" id="btn-add-cake">Thêm bánh mới</button>
+        </div>
+        
+        <!-- Search Form -->
+        <div class="searchForm">
+          <input type="text" id="search-query" placeholder="Tìm kiếm bánh theo tên, loại hoặc mô tả...">
+          <button class="btnPrimary" id="btn-search">Tìm kiếm</button>
+        </div>
+        
+        <!-- Filter Options -->
+        <div class="filterOptions">
+          <select id="filter-category">
+            <option value="">Tất cả loại bánh</option>
+          </select>
+          <input type="number" id="filter-min-price" placeholder="Giá tối thiểu">
+          <input type="number" id="filter-max-price" placeholder="Giá tối đa">
+        </div>
+        
+        <!-- Cakes Grid -->
+        <div id="cakes-container" class="cakeGrid">
+          <!-- Cakes will be loaded here -->
+        </div>
+        
+        <!-- Pagination -->
+        <div class="pagination" id="pagination">
+          <!-- Pagination will be generated here -->
+        </div>
+      </div>
+
+      <!-- MY CAKES PANEL -->
+      <div id="panel-my-cakes" class="panel">
+        <div class="topRow">
+          <div>
+            <div class="title">Bánh của tôi</div>
+            <div class="muted">Quản lý bánh bạn đã tạo</div>
+          </div>
+          <button class="btnPrimary" id="btn-add-my-cake">Thêm bánh mới</button>
+        </div>
+        
+        <!-- My Cakes Grid -->
+        <div id="my-cakes-container" class="cakeGrid">
+          <!-- My cakes will be loaded here -->
+        </div>
+        
+        <!-- Pagination -->
+        <div class="pagination" id="my-pagination">
+          <!-- Pagination will be generated here -->
         </div>
       </div>
     </section>
@@ -399,46 +659,176 @@
       </div>
     </div>
   </div>
+  
+  <!-- Modal Add/Edit Cake -->
+  <div class="modal-overlay" id="modal-cake">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-cake-title">Thêm bánh mới</h2>
+        <button class="modal-close" id="close-cake-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-cake">
+          <input type="text" id="cake_name" placeholder="Tên bánh" required aria-label="Tên bánh">
+          <input type="text" id="cake_category" placeholder="Loại bánh" required aria-label="Loại bánh">
+          <input type="number" id="cake_price" placeholder="Giá bánh" required aria-label="Giá bánh">
+          <input type="url" id="cake_image" placeholder="URL hình ảnh" required aria-label="URL hình ảnh">
+          <textarea id="cake_description" placeholder="Mô tả bánh" style="width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(20,20,20,0.1); min-height:80px; resize: vertical;" aria-label="Mô tả bánh"></textarea>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btnPrimary" id="btn-cancel-cake">Hủy</button>
+        <button class="btnSecondary" id="btn-save-cake">Lưu bánh</button>
+      </div>
+    </div>
+  </div>
 
   <script>
-    // === CẤU HÌNH API (ĐÃ ĐỔI SẴN) ===
-    const API_BASE = "https://banhngot.fitlhu.com/api/auth";
+    // === CẤU HÌNH API ===
+    const API_BASE = "https://banhngot.fitlhu.com/api";
+    const AUTH_BASE = `${API_BASE}/auth`;
+    const CAKES_BASE = `${API_BASE}/cakes`;
 
     // DOM refs
-    const tabs = document.querySelectorAll('.tab');
+    const tabsContainer = document.getElementById('tab-container');
     const panelRegister = document.getElementById('panel-register');
     const panelLogin = document.getElementById('panel-login');
     const panelProfile = document.getElementById('panel-profile');
+    const panelCakes = document.getElementById('panel-cakes');
+    const panelMyCakes = document.getElementById('panel-my-cakes');
     const toastEl = document.getElementById('toast');
     const modalEditProfile = document.getElementById('modal-edit-profile');
     const modalChangePassword = document.getElementById('modal-change-password');
+    const modalCake = document.getElementById('modal-cake');
+    
+    // State
+    let currentUser = null;
+    let currentPage = 1;
+    let currentLimit = 10;
+    let currentCategory = '';
+    let currentSearchQuery = '';
+    let currentMinPrice = '';
+    let currentMaxPrice = '';
+    let editingCakeId = null;
+    let categories = [];
 
     // Helpers: toast
     let toastTimer = null;
-    function toast(msg, isError=false){
+    function toast(msg, isError=false, isSuccess=false){
       toastEl.textContent = msg;
-      toastEl.style.background = isError ? 'linear-gradient(90deg,#c84b4b,#8f2b2b)' : 'linear-gradient(90deg,#2b2b2b,#434343)';
+      toastEl.className = 'toast';
+      
+      if (isSuccess) {
+        toastEl.classList.add('success');
+        toastEl.innerHTML = `<span class="toast-icon">✓</span> ${msg}`;
+      } else if (isError) {
+        toastEl.classList.add('error');
+        toastEl.innerHTML = `<span class="toast-icon">✗</span> ${msg}`;
+      } else {
+        toastEl.innerHTML = `<span class="toast-icon">ℹ</span> ${msg}`;
+      }
+      
       toastEl.classList.add('show');
       clearTimeout(toastTimer);
       toastTimer = setTimeout(()=> toastEl.classList.remove('show'), 3500);
     }
 
-    // Tab switching
-    function switchTo(name){
-      tabs.forEach(t=>t.classList.remove('active'));
-      document.getElementById('tab-register').classList.toggle('active', name === 'register');
-      document.getElementById('tab-login').classList.toggle('active', name === 'login');
-      document.getElementById('tab-profile').classList.toggle('active', name === 'profile');
-
-      panelRegister.style.display = name === 'register' ? 'block' : 'none';
-      panelLogin.style.display = name === 'login' ? 'block' : 'none';
-      panelProfile.style.display = name === 'profile' ? 'block' : 'none';
+    // Loading state for buttons
+    function setLoading(buttonId, isLoading) {
+      const button = document.getElementById(buttonId);
+      const text = document.getElementById(`${buttonId.replace('btn-', '')}-text`);
+      const spinner = document.getElementById(`${buttonId.replace('btn-', '')}-spinner`);
+      
+      if (button && text && spinner) {
+        if (isLoading) {
+          button.disabled = true;
+          text.style.display = 'none';
+          spinner.style.display = 'inline-block';
+        } else {
+          button.disabled = false;
+          text.style.display = 'inline-block';
+          spinner.style.display = 'none';
+        }
+      }
     }
 
-    // Attach tab buttons
-    document.getElementById('tab-register').addEventListener('click', ()=> switchTo('register'));
-    document.getElementById('tab-login').addEventListener('click', ()=> switchTo('login'));
-    document.getElementById('tab-profile').addEventListener('click', ()=> switchTo('profile'));
+    // Update tabs based on login status
+    function updateTabs() {
+      const isLoggedIn = !!getToken();
+      tabsContainer.innerHTML = '';
+      
+      if (!isLoggedIn) {
+        // Not logged in - show register and login tabs
+        tabsContainer.innerHTML = `
+          <button class="tab active" id="tab-register" role="tab" aria-selected="true">Đăng ký</button>
+          <button class="tab" id="tab-login" role="tab">Đăng nhập</button>
+        `;
+        
+        // Reattach event listeners
+        document.getElementById('tab-register').addEventListener('click', ()=> switchTo('register'));
+        document.getElementById('tab-login').addEventListener('click', ()=> switchTo('login'));
+      } else {
+        // Logged in - show profile, cakes, and my cakes tabs
+        tabsContainer.innerHTML = `
+          <button class="tab" id="tab-profile" role="tab">Profile</button>
+          <button class="tab active" id="tab-cakes" role="tab" aria-selected="true">Tất cả bánh</button>
+          <button class="tab" id="tab-my-cakes" role="tab">Bánh của tôi</button>
+        `;
+        
+        // Reattach event listeners
+        document.getElementById('tab-profile').addEventListener('click', ()=> switchTo('profile'));
+        document.getElementById('tab-cakes').addEventListener('click', ()=> switchTo('cakes'));
+        document.getElementById('tab-my-cakes').addEventListener('click', ()=> switchTo('my-cakes'));
+      }
+    }
+
+    // Tab switching
+    function switchTo(name){
+      // Hide all panels
+      const panels = [panelRegister, panelLogin, panelProfile, panelCakes, panelMyCakes];
+      panels.forEach(panel => {
+        panel.style.display = 'none';
+      });
+      
+      // Update active tab
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      
+      // Show selected panel and set active tab
+      switch(name) {
+        case 'register':
+          panelRegister.style.display = 'block';
+          document.getElementById('tab-register').classList.add('active');
+          document.getElementById('panel-title').textContent = 'Đăng ký tài khoản';
+          document.getElementById('panel-subtitle').textContent = 'Tạo tài khoản mới để bắt đầu';
+          break;
+        case 'login':
+          panelLogin.style.display = 'block';
+          document.getElementById('tab-login').classList.add('active');
+          document.getElementById('panel-title').textContent = 'Đăng nhập';
+          document.getElementById('panel-subtitle').textContent = 'Đăng nhập vào tài khoản của bạn';
+          break;
+        case 'profile':
+          panelProfile.style.display = 'block';
+          document.getElementById('tab-profile').classList.add('active');
+          document.getElementById('panel-title').textContent = 'Thông tin cá nhân';
+          document.getElementById('panel-subtitle').textContent = 'Quản lý thông tin tài khoản';
+          break;
+        case 'cakes':
+          panelCakes.style.display = 'block';
+          document.getElementById('tab-cakes').classList.add('active');
+          document.getElementById('panel-title').textContent = 'Tất cả bánh ngọt';
+          document.getElementById('panel-subtitle').textContent = 'Khám phá tất cả bánh trong hệ thống';
+          loadCakes();
+          break;
+        case 'my-cakes':
+          panelMyCakes.style.display = 'block';
+          document.getElementById('tab-my-cakes').classList.add('active');
+          document.getElementById('panel-title').textContent = 'Bánh của tôi';
+          document.getElementById('panel-subtitle').textContent = 'Quản lý bánh bạn đã tạo';
+          loadMyCakes();
+          break;
+      }
+    }
 
     // Link shortcuts
     document.getElementById('lnk-to-login').addEventListener('click', (e)=>{ e.preventDefault(); switchTo('login'); });
@@ -451,7 +841,7 @@
       const img = new Image();
       img.onload = ()=> {
         document.querySelector('#profileAvatar img').src = url;
-        toast('Xem trước avatar thành công');
+        toast('Xem trước avatar thành công', false, true);
       }
       img.onerror = ()=> toast('Không tải được ảnh. Kiểm tra URL', true);
       img.src = url;
@@ -473,6 +863,8 @@
 
     // === AUTH FUNCTIONS ===
     async function register(){
+      setLoading('btn-register', true);
+      
       const body = {
         username: document.getElementById('reg_username').value.trim(),
         email: document.getElementById('reg_email').value.trim(),
@@ -480,24 +872,32 @@
         full_name: document.getElementById('reg_fullname').value.trim(),
         avatar: document.getElementById('reg_avatar').value.trim() || null
       };
+      
       if(!body.username || !body.email || !body.password || !body.full_name){
         toast('Vui lòng điền đầy đủ các trường bắt buộc', true);
+        setLoading('btn-register', false);
         return;
       }
+      
       try{
-        const res = await fetch(`${API_BASE}/register`, {
+        const res = await fetch(`${AUTH_BASE}/register`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body)
         });
         const data = await res.json().catch(()=> null);
+        
         if(res.ok && (data && (data.success || res.status === 201))){
           // prefer token from response.data.token
           const token = data && data.data && data.data.token ? data.data.token : null;
           if(token) localStorage.setItem('auth_token', token);
-          toast(data.message || 'Đăng ký thành công');
+          toast(data.message || 'Đăng ký thành công', false, true);
           // Load profile if token exists
-          if(token) { await loadProfile(); switchTo('profile'); }
+          if(token) { 
+            await loadProfile(); 
+            updateTabs();
+            switchTo('profile'); 
+          }
           else switchTo('login');
         } else {
           const errMsg = (data && (data.error || data.message)) || `Lỗi đăng ký (Mã ${res.status})`;
@@ -506,20 +906,25 @@
       } catch(err){
         console.error(err);
         toast('Lỗi kết nối server. Kiểm tra API và CORS', true);
+      } finally {
+        setLoading('btn-register', false);
       }
     }
 
     async function login(){
+      setLoading('btn-login', true);
+      
       const body = {
         username: document.getElementById('login_username').value.trim(),
         password: document.getElementById('login_password').value
       };
       if(!body.username || !body.password){
         toast('Nhập username và password', true);
+        setLoading('btn-login', false);
         return;
       }
       try{
-        const res = await fetch(`${API_BASE}/login`, {
+        const res = await fetch(`${AUTH_BASE}/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body)
@@ -529,9 +934,10 @@
           const token = data.data && data.data.token ? data.data.token : null;
           if(!token){ toast('Server không trả token', true); return; }
           localStorage.setItem('auth_token', token);
-          toast('Đăng nhập thành công');
+          toast('Đăng nhập thành công', false, true);
           await loadProfile();
-          switchTo('profile');
+          updateTabs();
+          switchTo('cakes');
         } else {
           const errMsg = (data && (data.error || data.message)) || `Lỗi đăng nhập (Mã ${res.status})`;
           toast(errMsg, true);
@@ -539,6 +945,8 @@
       } catch(err){
         console.error(err);
         toast('Lỗi kết nối server. Kiểm tra API và CORS', true);
+      } finally {
+        setLoading('btn-login', false);
       }
     }
 
@@ -554,12 +962,13 @@
         return;
       }
       try{
-        const res = await fetch(`${API_BASE}/profile`, {
+        const res = await fetch(`${AUTH_BASE}/profile`, {
           method: 'GET',
           headers: { 'Authorization': 'Bearer ' + token }
         });
         const data = await res.json().catch(()=> null);
         if(res.ok && data && data.success){
+          currentUser = data.data;
           renderProfile(data.data);
         } else {
           // Token invalid or other errors
@@ -567,6 +976,7 @@
           toast(errMsg, true);
           if(res.status === 401) {
             localStorage.removeItem('auth_token');
+            updateTabs();
             switchTo('login');
           }
         }
@@ -624,7 +1034,7 @@
       }
       
       try{
-        const res = await fetch(`${API_BASE}/profile`, {
+        const res = await fetch(`${AUTH_BASE}/profile`, {
           method: 'PUT',
           headers: { 
             'Content-Type': 'application/json',
@@ -634,7 +1044,7 @@
         });
         const data = await res.json().catch(()=> null);
         if(res.ok && data && data.success){
-          toast('Cập nhật thông tin thành công');
+          toast('Cập nhật thông tin thành công', false, true);
           modalEditProfile.classList.remove('active');
           await loadProfile(); // Reload profile to show updated info
         } else {
@@ -687,7 +1097,7 @@
       };
       
       try{
-        const res = await fetch(`${API_BASE}/change-password`, {
+        const res = await fetch(`${AUTH_BASE}/change-password`, {
           method: 'PUT',
           headers: { 
             'Content-Type': 'application/json',
@@ -697,7 +1107,7 @@
         });
         const data = await res.json().catch(()=> null);
         if(res.ok && data && data.success){
-          toast('Đổi mật khẩu thành công');
+          toast('Đổi mật khẩu thành công', false, true);
           modalChangePassword.classList.remove('active');
           // Clear password fields
           document.getElementById('current_password').value = '';
@@ -713,18 +1123,365 @@
       }
     });
 
+    // === CAKES FUNCTIONS ===
+    async function loadCakes(page = 1, limit = 10) {
+      try {
+        let url = `${CAKES_BASE}?page=${page}&limit=${limit}`;
+        
+        if (currentCategory) {
+          url += `&category=${encodeURIComponent(currentCategory)}`;
+        }
+        
+        if (currentSearchQuery) {
+          url += `&q=${encodeURIComponent(currentSearchQuery)}`;
+          
+          if (currentMinPrice) {
+            url += `&minPrice=${currentMinPrice}`;
+          }
+          
+          if (currentMaxPrice) {
+            url += `&maxPrice=${currentMaxPrice}`;
+          }
+        }
+        
+        const res = await fetch(url);
+        const data = await res.json();
+        
+        if (res.ok && data.success) {
+          renderCakes(data.data, data.pagination, 'cakes-container', 'pagination');
+        } else {
+          toast('Lỗi khi tải danh sách bánh', true);
+        }
+      } catch (err) {
+        console.error(err);
+        toast('Lỗi kết nối server', true);
+      }
+    }
+    
+    async function loadMyCakes(page = 1, limit = 10) {
+      const token = getToken();
+      if (!token) {
+        toast('Vui lòng đăng nhập để xem bánh của bạn', true);
+        switchTo('login');
+        return;
+      }
+      
+      try {
+        const res = await fetch(`${CAKES_BASE}/my?page=${page}&limit=${limit}`, {
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        });
+        const data = await res.json();
+        
+        if (res.ok && data.success) {
+          renderCakes(data.data, data.pagination, 'my-cakes-container', 'my-pagination', true);
+        } else {
+          toast('Lỗi khi tải danh sách bánh của bạn', true);
+        }
+      } catch (err) {
+        console.error(err);
+        toast('Lỗi kết nối server', true);
+      }
+    }
+    
+    function renderCakes(cakes, pagination, containerId, paginationId, isMyCakes = false) {
+      const container = document.getElementById(containerId);
+      
+      if (!cakes || cakes.length === 0) {
+        container.innerHTML = '<p class="muted" style="text-align:center; grid-column: 1 / -1; padding: 20px;">Không có bánh nào</p>';
+        document.getElementById(paginationId).innerHTML = '';
+        return;
+      }
+      
+      container.innerHTML = cakes.map(cake => `
+        <div class="cakeCardItem">
+          <img src="${cake.image}" alt="${cake.name}" class="cakeImage" onerror="this.src='https://via.placeholder.com/300x200.png?text=Không+có+hình'">
+          <div class="cakeName">${cake.name}</div>
+          <div class="cakeCategory">${cake.category}</div>
+          <div class="cakePrice">${formatPrice(cake.price)} VNĐ</div>
+          <div class="cakeActions">
+            ${isMyCakes ? `
+              <button class="btnOutline" onclick="editCake(${cake.id})">Sửa</button>
+              <button class="btnPrimary" onclick="deleteCake(${cake.id})">Xóa</button>
+            ` : `
+              <button class="btnOutline" onclick="viewCake(${cake.id})">Xem</button>
+            `}
+          </div>
+        </div>
+      `).join('');
+      
+      // Render pagination
+      renderPagination(pagination, paginationId, isMyCakes ? loadMyCakes : loadCakes);
+    }
+    
+    function renderPagination(pagination, paginationId, loadFunction) {
+      const paginationEl = document.getElementById(paginationId);
+      const { page, totalPages } = pagination;
+      
+      if (totalPages <= 1) {
+        paginationEl.innerHTML = '';
+        return;
+      }
+      
+      let paginationHTML = '';
+      
+      // Previous button
+      if (page > 1) {
+        paginationHTML += `<button onclick="${loadFunction.name}(${page - 1})">‹</button>`;
+      } else {
+        paginationHTML += `<button disabled>‹</button>`;
+      }
+      
+      // Page numbers
+      const maxVisiblePages = 5;
+      let startPage = Math.max(1, page - Math.floor(maxVisiblePages / 2));
+      let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+      
+      if (endPage - startPage + 1 < maxVisiblePages) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+      }
+      
+      for (let i = startPage; i <= endPage; i++) {
+        if (i === page) {
+          paginationHTML += `<button class="active">${i}</button>`;
+        } else {
+          paginationHTML += `<button onclick="${loadFunction.name}(${i})">${i}</button>`;
+        }
+      }
+      
+      // Next button
+      if (page < totalPages) {
+        paginationHTML += `<button onclick="${loadFunction.name}(${page + 1})">›</button>`;
+      } else {
+        paginationHTML += `<button disabled>›</button>`;
+      }
+      
+      paginationEl.innerHTML = paginationHTML;
+    }
+    
+    function formatPrice(price) {
+      return new Intl.NumberFormat('vi-VN').format(price);
+    }
+    
+    // Add Cake
+    document.getElementById('btn-add-cake').addEventListener('click', () => {
+      editingCakeId = null;
+      document.getElementById('modal-cake-title').textContent = 'Thêm bánh mới';
+      document.getElementById('form-cake').reset();
+      modalCake.classList.add('active');
+    });
+    
+    document.getElementById('btn-add-my-cake').addEventListener('click', () => {
+      editingCakeId = null;
+      document.getElementById('modal-cake-title').textContent = 'Thêm bánh mới';
+      document.getElementById('form-cake').reset();
+      modalCake.classList.add('active');
+    });
+    
+    // Edit Cake
+    window.editCake = async function(cakeId) {
+      const token = getToken();
+      if (!token) {
+        toast('Vui lòng đăng nhập', true);
+        return;
+      }
+      
+      try {
+        const res = await fetch(`${CAKES_BASE}/${cakeId}`, {
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        });
+        const data = await res.json();
+        
+        if (res.ok && data.success) {
+          const cake = data.data;
+          editingCakeId = cakeId;
+          document.getElementById('modal-cake-title').textContent = 'Sửa bánh';
+          document.getElementById('cake_name').value = cake.name;
+          document.getElementById('cake_category').value = cake.category;
+          document.getElementById('cake_price').value = cake.price;
+          document.getElementById('cake_image').value = cake.image;
+          document.getElementById('cake_description').value = cake.description;
+          modalCake.classList.add('active');
+        } else {
+          toast('Lỗi khi tải thông tin bánh', true);
+        }
+      } catch (err) {
+        console.error(err);
+        toast('Lỗi kết nối server', true);
+      }
+    };
+    
+    // View Cake
+    window.viewCake = async function(cakeId) {
+      try {
+        const res = await fetch(`${CAKES_BASE}/${cakeId}`);
+        const data = await res.json();
+        
+        if (res.ok && data.success) {
+          const cake = data.data;
+          toast(`Bánh: ${cake.name} - ${formatPrice(cake.price)} VNĐ - ${cake.description}`, false, true);
+        } else {
+          toast('Lỗi khi tải thông tin bánh', true);
+        }
+      } catch (err) {
+        console.error(err);
+        toast('Lỗi kết nối server', true);
+      }
+    };
+    
+    // Delete Cake
+    window.deleteCake = async function(cakeId) {
+      if (!confirm('Bạn có chắc muốn xóa bánh này?')) return;
+      
+      const token = getToken();
+      if (!token) {
+        toast('Vui lòng đăng nhập', true);
+        return;
+      }
+      
+      try {
+        const res = await fetch(`${CAKES_BASE}/${cakeId}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        });
+        const data = await res.json();
+        
+        if (res.ok && data.success) {
+          toast('Xóa bánh thành công', false, true);
+          loadMyCakes(); // Reload my cakes
+        } else {
+          const errMsg = data && data.message ? data.message : 'Lỗi khi xóa bánh';
+          toast(errMsg, true);
+        }
+      } catch (err) {
+        console.error(err);
+        toast('Lỗi kết nối server', true);
+      }
+    };
+    
+    // Save Cake
+    document.getElementById('btn-save-cake').addEventListener('click', async () => {
+      const token = getToken();
+      if (!token) {
+        toast('Vui lòng đăng nhập', true);
+        return;
+      }
+      
+      const body = {
+        name: document.getElementById('cake_name').value.trim(),
+        category: document.getElementById('cake_category').value.trim(),
+        price: parseInt(document.getElementById('cake_price').value),
+        image: document.getElementById('cake_image').value.trim(),
+        description: document.getElementById('cake_description').value.trim()
+      };
+      
+      if (!body.name || !body.category || !body.price || !body.image) {
+        toast('Vui lòng điền đầy đủ thông tin bánh', true);
+        return;
+      }
+      
+      try {
+        const url = editingCakeId ? `${CAKES_BASE}/${editingCakeId}` : `${CAKES_BASE}`;
+        const method = editingCakeId ? 'PUT' : 'POST';
+        
+        const res = await fetch(url, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        
+        if (res.ok && data.success) {
+          toast(editingCakeId ? 'Cập nhật bánh thành công' : 'Thêm bánh thành công', false, true);
+          modalCake.classList.remove('active');
+          
+          // Reload the appropriate list
+          if (editingCakeId) {
+            loadMyCakes();
+          } else {
+            // Check which panel is active and reload accordingly
+            if (panelMyCakes.style.display !== 'none') {
+              loadMyCakes();
+            } else {
+              loadCakes();
+            }
+          }
+        } else {
+          const errMsg = data && data.message ? data.message : 'Lỗi khi lưu bánh';
+          toast(errMsg, true);
+        }
+      } catch (err) {
+        console.error(err);
+        toast('Lỗi kết nối server', true);
+      }
+    });
+    
+    // Cancel Cake Modal
+    document.getElementById('btn-cancel-cake').addEventListener('click', () => {
+      modalCake.classList.remove('active');
+    });
+    
+    document.getElementById('close-cake-modal').addEventListener('click', () => {
+      modalCake.classList.remove('active');
+    });
+    
+    // Search Cakes
+    document.getElementById('btn-search').addEventListener('click', () => {
+      currentSearchQuery = document.getElementById('search-query').value;
+      currentCategory = document.getElementById('filter-category').value;
+      currentMinPrice = document.getElementById('filter-min-price').value;
+      currentMaxPrice = document.getElementById('filter-max-price').value;
+      loadCakes(1, currentLimit);
+    });
+    
+    // Load categories
+    async function loadCategories() {
+      try {
+        const res = await fetch(`${CAKES_BASE}/categories/list`);
+        const data = await res.json();
+        
+        if (res.ok && data.success) {
+          categories = data.data;
+          const categorySelect = document.getElementById('filter-category');
+          categorySelect.innerHTML = '<option value="">Tất cả loại bánh</option>';
+          
+          categories.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat.category;
+            option.textContent = `${cat.category} (${cat.count})`;
+            categorySelect.appendChild(option);
+          });
+        }
+      } catch (err) {
+        console.error('Lỗi khi tải danh mục:', err);
+      }
+    }
+
     // Logout
     document.getElementById('btn-logout').addEventListener('click', ()=>{
       localStorage.removeItem('auth_token');
-      toast('Đã đăng xuất');
+      currentUser = null;
+      toast('Đã đăng xuất', false, true);
+      updateTabs();
       switchTo('login');
     });
 
     // Auto on load: if token exists, try load profile
     window.addEventListener('load', async ()=>{
+      updateTabs();
+      loadCategories();
+      
       if(getToken()){
         await loadProfile();
-        switchTo('profile');
+        switchTo('cakes');
       } else {
         switchTo('register');
       }
@@ -737,6 +1494,25 @@
       }
       if(e.target === modalChangePassword) {
         modalChangePassword.classList.remove('active');
+      }
+      if(e.target === modalCake) {
+        modalCake.classList.remove('active');
+      }
+    });
+
+    // Enter key to submit forms
+    document.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        const activePanel = document.querySelector('.panel[style="display: block;"]');
+        if (activePanel) {
+          const form = activePanel.querySelector('form');
+          if (form) {
+            const submitBtn = form.querySelector('button[type="submit"]');
+            if (submitBtn) {
+              submitBtn.click();
+            }
+          }
+        }
       }
     });
   </script>
