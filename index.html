@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tiệm Bánh Ngọt • Đăng nhập</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg1:#fff7fb;
+      --bg2:#fffaf0;
+      --accent1:#ff86b1;
+      --accent2:#ffd087;
+      --card:#ffffffcc;
+      --muted:#8b8f96;
+      --radius:18px;
+      --shadow: 0 18px 40px rgba(16,24,40,0.08);
+      --glass: rgba(255,255,255,0.6);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:
+        radial-gradient(600px 300px at 10% 10%, rgba(255,222,235,0.45), transparent 15%),
+        radial-gradient(700px 300px at 90% 90%, rgba(255,245,220,0.6), transparent 12%),
+        linear-gradient(180deg,var(--bg1), var(--bg2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* Layout */
+    .stage {
+      width:1040px;
+      max-width:100%;
+      display:grid;
+      grid-template-columns: 460px 1fr;
+      gap:28px;
+      align-items:stretch;
+      padding:24px;
+    }
+
+    /* LEFT - visual */
+    .showcase{
+      background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.35));
+      border-radius: var(--radius);
+      padding:28px;
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+      min-height:560px;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+    .brand{
+      display:flex;
+      gap:14px;
+      align-items:center;
+    }
+    .logoMark{
+      width:64px;height:64px;border-radius:16px;
+      background: linear-gradient(135deg,var(--accent1),var(--accent2));
+      display:flex;align-items:center;justify-content:center;
+      color:#fff;font-family:'Dancing Script';font-size:28px;font-weight:700;
+      box-shadow: 0 10px 30px rgba(255,130,170,0.12);
+    }
+    .brand h1{margin:0;font-size:20px}
+    .tag{color:var(--muted); font-size:13px}
+
+    .visualWrap{
+      flex:1; display:flex; align-items:center; justify-content:center;
+      transition: transform .6s cubic-bezier(.2,.9,.3,1);
+    }
+    .showcase:hover .visualWrap{ transform: translateY(-6px); }
+
+    .cakeCard{
+      width:260px;height:260px;border-radius:36px;
+      background: conic-gradient(from 140deg,#fff3fb,#fff8ec 40%, #fffaf8 70%);
+      box-shadow: 0 22px 50px rgba(255,140,190,0.06), inset 0 -8px 20px rgba(0,0,0,0.02);
+      position:relative;
+      display:flex;align-items:center;justify-content:center;
+      transform: rotate(-2deg);
+    }
+    .cakePlate{
+      width:180px;height:100px;border-radius:90px;background:linear-gradient(180deg,#fff8f9,#ffeef4);
+      position:absolute; bottom:18px; box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+    }
+
+    /* sprinkle animations (subtle) */
+    .sprinkles{ position:absolute; width:140px;height:140px; display:grid; grid-template-columns:repeat(6,1fr); gap:6px; transform: rotate(-8deg); }
+    .sprinkles i{ width:8px;height:14px;border-radius:8px; display:block; transform-origin:center; animation: lift .9s infinite ease-in-out; opacity:.95 }
+    .sprinkles i:nth-child(odd){ animation-delay:.12s } 
+    @keyframes lift{ 0%{ transform:translateY(0) } 50%{ transform:translateY(-6px) } 100%{ transform:translateY(0) } }
+
+    .showcaseNote{ font-size:14px; color:#6b6165; line-height:1.5; margin-top:6px }
+
+    /* RIGHT - card (forms) */
+    .card{
+      background: linear-gradient(180deg, var(--glass), rgba(255,255,255,0.28));
+      border-radius: var(--radius);
+      padding:26px;
+      box-shadow: var(--shadow);
+      min-height:560px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .topRow{ display:flex; justify-content:space-between; align-items:center; gap:10px; }
+    .topRow .title{ font-weight:700; color:#4b3a44; font-size:18px }
+    .tabs{ display:flex; gap:8px; align-items:center; }
+    .tab{
+      padding:8px 12px; border-radius:12px; cursor:pointer; font-weight:600; font-size:14px;
+      background:transparent; color:#4c3b46; border:1px solid transparent;
+      transition: all .22s ease;
+    }
+    .tab.active{ background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; box-shadow: 0 10px 30px rgba(255,140,190,0.12); transform:translateY(-2px) }
+
+    form{ display:grid; gap:10px; margin-top:6px; }
+    .row{ display:flex; gap:10px; }
+    input[type="text"], input[type="email"], input[type="password"], input[type="url"]{
+      width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(20,20,20,0.06);
+      background:transparent; outline:none; font-size:14px;
+      transition: box-shadow .18s ease, transform .12s;
+    }
+    input:focus{ box-shadow: 0 8px 22px rgba(16,24,40,0.06); transform:translateY(-2px) }
+
+    .btnPrimary{
+      padding:12px 14px; border-radius:12px; border:none; cursor:pointer; font-weight:800; letter-spacing:.3px;
+      background: linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; box-shadow: 0 12px 30px rgba(255,140,190,0.12);
+      transition: transform .12s ease, box-shadow .12s;
+    }
+    .btnPrimary:active{ transform:translateY(2px) }
+
+    .muted{ color:var(--muted); font-size:13px; text-align:center }
+
+    .profileView{ display:flex; flex-direction:column; align-items:center; gap:12px; margin-top:6px; }
+    .avatar{
+      width:120px;height:120px;border-radius:18px; overflow:hidden; display:flex; align-items:center; justify-content:center;
+      background:linear-gradient(90deg,#fff,#fff1); box-shadow: 0 12px 30px rgba(16,24,40,0.06);
+    }
+    .avatar img{ width:100%; height:100%; object-fit:cover; display:block }
+    .meta{ text-align:center }
+    .meta h3{ margin:6px 0 0; font-size:18px }
+    .meta p{ margin:4px 0; color:var(--muted); font-size:13px }
+
+    /* toast */
+    .toast{
+      position: fixed; right:20px; bottom:20px; min-width:240px; padding:12px 16px; border-radius:12px;
+      background:linear-gradient(90deg,#2a2a2a,#3a3a3a); color:white; box-shadow:0 10px 30px rgba(0,0,0,0.25); opacity:0; transform:translateY(12px);
+      transition: all .36s cubic-bezier(.2,.9,.3,1);
+      z-index:9999;
+    }
+    .toast.show{ opacity:1; transform:translateY(0) }
+
+    /* small screens */
+    @media (max-width:980px){
+      .stage{ grid-template-columns: 1fr; padding:18px; gap:16px; }
+      .showcase{ order:2 }
+      .card{ order:1 }
+    }
+  </style>
+</head>
+<body>
+  <div class="stage" role="main" aria-label="Tiệm Bánh Ngọt - Authentication">
+    <!-- LEFT SHOWCASE -->
+    <section class="showcase" aria-hidden="true">
+      <div class="brand">
+        <div class="logoMark" aria-hidden="true">B</div>
+        <div>
+          <h1>Tiệm Bánh Ngọt Mơ Mộng</h1>
+          <div class="tag">Ngọt lịm tim — Gây thương nhớ</div>
+        </div>
+      </div>
+
+      <div class="visualWrap" aria-hidden="true">
+        <div class="cakeCard" role="img" aria-label="Bánh ngọt minh họa">
+          <div class="sprinkles" aria-hidden="true">
+            <i style="background:#ff8ab8"></i><i style="background:#ffd08a"></i><i style="background:#d9b3ff"></i>
+            <i style="background:#ffd6f0"></i><i style="background:#ffcab8"></i><i style="background:#c3f0ff"></i>
+            <i style="background:#ffd08a"></i><i style="background:#ff8ab8"></i><i style="background:#c3f0ff"></i>
+            <i style="background:#ffd6f0"></i><i style="background:#d9b3ff"></i><i style="background:#ffcab8"></i>
+          </div>
+          <div class="cakePlate" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <div class="showcaseNote">
+        Giao diện này dùng **chỉ 3 API**: đăng ký (`POST /api/auth/register`), đăng nhập (`POST /api/auth/login`), và lấy profile (`GET /api/auth/profile`).
+        Mượt mà, tối giản nhưng sang — phù hợp cho trang quản lý khách hàng tiệm bánh.
+      </div>
+    </section>
+
+    <!-- RIGHT CARD -->
+    <section class="card" role="application" aria-label="Form đăng nhập và quản lý">
+      <div class="topRow">
+        <div>
+          <div class="title">Quản lý khách hàng • Đăng nhập</div>
+          <div class="muted">An toàn • Gọn gàng • Nhẹ nhàng</div>
+        </div>
+        <div class="tabs" role="tablist" aria-label="Chuyển tab">
+          <button class="tab active" id="tab-register" role="tab" aria-selected="true">Đăng ký</button>
+          <button class="tab" id="tab-login" role="tab">Đăng nhập</button>
+          <button class="tab" id="tab-profile" role="tab">Profile</button>
+        </div>
+      </div>
+
+      <!-- REGISTER PANEL -->
+      <div id="panel-register" style="display:block;">
+        <form id="form-register" autocomplete="off">
+          <div class="row">
+            <input id="reg_username" type="text" placeholder="Tên đăng nhập" required aria-label="Tên đăng nhập">
+            <input id="reg_email" type="email" placeholder="Email" required aria-label="Email">
+          </div>
+          <div class="row">
+            <input id="reg_password" type="password" placeholder="Mật khẩu" required aria-label="Mật khẩu">
+            <input id="reg_fullname" type="text" placeholder="Họ và tên" required aria-label="Họ và tên">
+          </div>
+          <div class="row">
+            <input id="reg_avatar" type="url" placeholder="URL ảnh đại diện (tùy chọn)" aria-label="Avatar URL">
+            <button type="button" class="btnPrimary" id="btn-avatar-preview">Xem</button>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <button type="submit" class="btnPrimary" id="btn-register">Tạo tài khoản</button>
+          </div>
+          <div style="margin-top:6px;" class="muted">Đã có tài khoản? <a href="#" id="lnk-to-login">Đăng nhập</a></div>
+        </form>
+      </div>
+
+      <!-- LOGIN PANEL -->
+      <div id="panel-login" style="display:none;">
+        <form id="form-login" autocomplete="off">
+          <input id="login_username" type="text" placeholder="Tên đăng nhập" required aria-label="Tên đăng nhập">
+          <input id="login_password" type="password" placeholder="Mật khẩu" required aria-label="Mật khẩu">
+          <div style="display:flex; gap:10px;">
+            <button type="submit" class="btnPrimary" id="btn-login">Đăng nhập</button>
+          </div>
+          <div style="margin-top:6px;" class="muted">Chưa có tài khoản? <a href="#" id="lnk-to-register">Đăng ký</a></div>
+        </form>
+      </div>
+
+      <!-- PROFILE PANEL -->
+      <div id="panel-profile" style="display:none;">
+        <div class="profileView" id="profileBlock" aria-live="polite">
+          <div class="avatar" id="profileAvatar">
+            <img src="https://via.placeholder.com/300x300.png?text=Avatar" alt="Avatar người dùng">
+          </div>
+          <div class="meta">
+            <h3 id="profileFullname">Khách</h3>
+            <p id="profileUsername" class="muted">@username</p>
+            <p id="profileEmail" class="muted">email</p>
+            <p id="profileCreated" class="muted">Ngày tạo: --</p>
+          </div>
+          <div style="width:100%; display:flex; gap:10px; margin-top:8px;">
+            <button class="btnPrimary" id="btn-logout">Đăng xuất</button>
+            <button class="btnPrimary" id="btn-refresh" style="background:linear-gradient(90deg,#fff,#fff); color:#4b3a44; box-shadow:none;">Tải lại</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- toast -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // === CẤU HÌNH API (ĐÃ ĐỔI SẴN) ===
+    const API_BASE = "https://banhngot.fitlhu.com/api/auth";
+
+    // DOM refs
+    const tabs = document.querySelectorAll('.tab');
+    const panelRegister = document.getElementById('panel-register');
+    const panelLogin = document.getElementById('panel-login');
+    const panelProfile = document.getElementById('panel-profile');
+    const toastEl = document.getElementById('toast');
+
+    // Helpers: toast
+    let toastTimer = null;
+    function toast(msg, isError=false){
+      toastEl.textContent = msg;
+      toastEl.style.background = isError ? 'linear-gradient(90deg,#c84b4b,#8f2b2b)' : 'linear-gradient(90deg,#2b2b2b,#434343)';
+      toastEl.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=> toastEl.classList.remove('show'), 3500);
+    }
+
+    // Tab switching
+    function switchTo(name){
+      tabs.forEach(t=>t.classList.remove('active'));
+      document.getElementById('tab-register').classList.toggle('active', name === 'register');
+      document.getElementById('tab-login').classList.toggle('active', name === 'login');
+      document.getElementById('tab-profile').classList.toggle('active', name === 'profile');
+
+      panelRegister.style.display = name === 'register' ? 'block' : 'none';
+      panelLogin.style.display = name === 'login' ? 'block' : 'none';
+      panelProfile.style.display = name === 'profile' ? 'block' : 'none';
+    }
+
+    // Attach tab buttons
+    document.getElementById('tab-register').addEventListener('click', ()=> switchTo('register'));
+    document.getElementById('tab-login').addEventListener('click', ()=> switchTo('login'));
+    document.getElementById('tab-profile').addEventListener('click', ()=> switchTo('profile'));
+
+    // Link shortcuts
+    document.getElementById('lnk-to-login').addEventListener('click', (e)=>{ e.preventDefault(); switchTo('login'); });
+    document.getElementById('lnk-to-register').addEventListener('click', (e)=>{ e.preventDefault(); switchTo('register'); });
+
+    // Avatar preview
+    document.getElementById('btn-avatar-preview').addEventListener('click', ()=>{
+      const url = document.getElementById('reg_avatar').value.trim();
+      if(!url){ toast('Nhập URL ảnh để xem trước', true); return; }
+      const img = new Image();
+      img.onload = ()=> {
+        document.querySelector('#profileAvatar img').src = url;
+        toast('Xem trước avatar thành công');
+      }
+      img.onerror = ()=> toast('Không tải được ảnh. Kiểm tra URL', true);
+      img.src = url;
+    });
+
+    // Forms
+    const formRegister = document.getElementById('form-register');
+    const formLogin = document.getElementById('form-login');
+
+    formRegister.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      await register();
+    });
+
+    formLogin.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      await login();
+    });
+
+    // === AUTH FUNCTIONS ===
+    async function register(){
+      const body = {
+        username: document.getElementById('reg_username').value.trim(),
+        email: document.getElementById('reg_email').value.trim(),
+        password: document.getElementById('reg_password').value,
+        full_name: document.getElementById('reg_fullname').value.trim(),
+        avatar: document.getElementById('reg_avatar').value.trim() || null
+      };
+      if(!body.username || !body.email || !body.password || !body.full_name){
+        toast('Vui lòng điền đầy đủ các trường bắt buộc', true);
+        return;
+      }
+      try{
+        const res = await fetch(`${API_BASE}/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        const data = await res.json().catch(()=> null);
+        if(res.ok && (data && (data.success || res.status === 201))){
+          // prefer token from response.data.token
+          const token = data && data.data && data.data.token ? data.data.token : null;
+          if(token) localStorage.setItem('auth_token', token);
+          toast(data.message || 'Đăng ký thành công');
+          // Load profile if token exists
+          if(token) { await loadProfile(); switchTo('profile'); }
+          else switchTo('login');
+        } else {
+          const errMsg = (data && (data.error || data.message)) || `Lỗi đăng ký (Mã ${res.status})`;
+          toast(errMsg, true);
+        }
+      } catch(err){
+        console.error(err);
+        toast('Lỗi kết nối server. Kiểm tra API và CORS', true);
+      }
+    }
+
+    async function login(){
+      const body = {
+        username: document.getElementById('login_username').value.trim(),
+        password: document.getElementById('login_password').value
+      };
+      if(!body.username || !body.password){
+        toast('Nhập username và password', true);
+        return;
+      }
+      try{
+        const res = await fetch(`${API_BASE}/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        const data = await res.json().catch(()=> null);
+        if(res.ok && data && data.success){
+          const token = data.data && data.data.token ? data.data.token : null;
+          if(!token){ toast('Server không trả token', true); return; }
+          localStorage.setItem('auth_token', token);
+          toast('Đăng nhập thành công');
+          await loadProfile();
+          switchTo('profile');
+        } else {
+          const errMsg = (data && (data.error || data.message)) || `Lỗi đăng nhập (Mã ${res.status})`;
+          toast(errMsg, true);
+        }
+      } catch(err){
+        console.error(err);
+        toast('Lỗi kết nối server. Kiểm tra API và CORS', true);
+      }
+    }
+
+    function getToken(){
+      return localStorage.getItem('auth_token') || null;
+    }
+
+    async function loadProfile(){
+      const token = getToken();
+      if(!token){
+        toast('Chưa đăng nhập', true);
+        switchTo('login');
+        return;
+      }
+      try{
+        const res = await fetch(`${API_BASE}/profile`, {
+          method: 'GET',
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const data = await res.json().catch(()=> null);
+        if(res.ok && data && data.success){
+          renderProfile(data.data);
+        } else {
+          // Token invalid or other errors
+          const errMsg = (data && (data.error || data.message)) || `Không lấy được profile (Mã ${res.status})`;
+          toast(errMsg, true);
+          if(res.status === 401) {
+            localStorage.removeItem('auth_token');
+            switchTo('login');
+          }
+        }
+      } catch(err){
+        console.error(err);
+        toast('Lỗi khi tải profile. Kiểm tra kết nối', true);
+      }
+    }
+
+    function renderProfile(u){
+      if(!u) return;
+      document.getElementById('profileFullname').textContent = u.full_name || 'Không có tên';
+      document.getElementById('profileUsername').textContent = u.username ? '@' + u.username : '@?';
+      document.getElementById('profileEmail').textContent = u.email || '—';
+      document.getElementById('profileCreated').textContent = u.created_at ? new Date(u.created_at).toLocaleString('vi-VN') : '--';
+      const avatarEl = document.querySelector('#profileAvatar img');
+      avatarEl.src = u.avatar || 'https://via.placeholder.com/300x300.png?text=Avatar';
+      avatarEl.alt = (u.full_name || u.username || 'Avatar');
+    }
+
+    // Logout & refresh
+    document.getElementById('btn-logout').addEventListener('click', ()=>{
+      localStorage.removeItem('auth_token');
+      toast('Đã đăng xuất');
+      switchTo('login');
+    });
+    document.getElementById('btn-refresh').addEventListener('click', async ()=>{
+      toast('Đang tải lại profile...');
+      await loadProfile();
+    });
+
+    // Auto on load: if token exists, try load profile
+    window.addEventListener('load', async ()=>{
+      if(getToken()){
+        await loadProfile();
+        switchTo('profile');
+      } else {
+        switchTo('register');
+      }
+    });
+
+    // Accessibility: allow Enter to submit in inputs (forms already handle submit)
+  </script>
+</body>
+</html>
