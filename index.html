@@ -22,6 +22,7 @@
       --glass: rgba(255,255,255,0.6);
       --success: #4CAF50;
       --error: #f44336;
+      --warning: #ff9800;
     }
 
     *{box-sizing:border-box}
@@ -214,7 +215,7 @@
     /* Cake Grid */
     .cakeGrid { 
       display: grid; 
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
       gap: 16px; 
       margin-top: 16px;
       max-height: 400px;
@@ -259,19 +260,37 @@
     .cakeName { font-weight: 700; margin: 0 0 8px; font-size: 16px; line-height: 1.2; }
     .cakeCategory { color: var(--muted); font-size: 12px; margin: 0 0 8px; }
     .cakePrice { font-weight: 700; color: var(--accent1); margin: 0 0 8px; }
+    .cakeDescription { font-size: 12px; color: var(--muted); margin: 0 0 12px; line-height: 1.3; }
+    .cakeCreator { font-size: 11px; color: var(--muted); margin: 0 0 8px; }
     .cakeActions { display: flex; gap: 8px; margin-top: auto; }
     .cakeActions button { flex: 1; padding: 8px; font-size: 12px; }
 
     /* Search Form */
-    .searchForm { display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-bottom: 16px; }
+    .searchForm { 
+      display: grid; 
+      grid-template-columns: 1fr auto; 
+      gap: 10px; 
+      margin-bottom: 16px;
+    }
     .searchForm input { margin-bottom: 0; }
 
     /* Filter Options */
     .filterOptions {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr auto;
       gap: 10px;
       margin-bottom: 16px;
+      align-items: end;
+    }
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .filter-label {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
     }
 
     /* Pagination */
@@ -289,6 +308,7 @@
       background: white; 
       cursor: pointer;
       transition: all .2s ease;
+      font-size: 12px;
     }
     .pagination button.active { 
       background: var(--accent1); 
@@ -338,6 +358,7 @@
     }
     .toast.success { background: linear-gradient(90deg, var(--success), #45a049); }
     .toast.error { background: linear-gradient(90deg, var(--error), #d32f2f); }
+    .toast.warning { background: linear-gradient(90deg, var(--warning), #f57c00); }
     .toast.show{ opacity:1; transform:translateY(0) }
     .toast-icon {
       font-size: 18px;
@@ -430,6 +451,108 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* Cake Detail Page */
+    .cake-detail {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .cake-detail-content {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    
+    .cake-detail-image {
+      width: 100%;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    
+    .cake-detail-info {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .cake-detail-name {
+      font-size: 24px;
+      font-weight: 700;
+      color: #4b3a44;
+      margin: 0;
+    }
+    
+    .cake-detail-price {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--accent1);
+    }
+    
+    .cake-detail-category {
+      background: rgba(255,134,177,0.1);
+      color: var(--accent1);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      display: inline-block;
+    }
+    
+    .cake-detail-description {
+      line-height: 1.6;
+      color: var(--muted);
+    }
+    
+    .cake-detail-meta {
+      display: flex;
+      gap: 16px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    
+    .back-button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: none;
+      color: var(--accent1);
+      cursor: pointer;
+      font-weight: 600;
+      margin-bottom: 16px;
+      transition: all 0.2s ease;
+    }
+    
+    .back-button:hover {
+      transform: translateX(-4px);
+    }
+
+    /* Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .stat-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 16px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      border-top: 4px solid var(--accent1);
+    }
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent1);
+      margin: 8px 0 4px;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
     /* small screens */
     @media (max-width:980px){
       .stage{ 
@@ -443,14 +566,17 @@
       .profileActions{ flex-direction: column; }
       .cakeGrid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
       .filterOptions { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
       .tabs { justify-content: center; }
       .topRow { justify-content: center; text-align: center; }
+      .cake-detail-content { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 480px) {
       .stage { padding: 5px; }
       .showcase, .card { padding: 16px; }
       .cakeGrid { grid-template-columns: 1fr 1fr; }
+      .stats-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -479,8 +605,7 @@
       </div>
 
       <div class="showcaseNote">
-        Giao diện này tích hợp đầy đủ các API: đăng ký, đăng nhập, quản lý profile và quản lý bánh ngọt.
-        Mượt mà, tối giản nhưng sang — phù hợp cho trang quản lý khách hàng tiệm bánh.
+        Khám phá thế giới bánh ngọt đầy màu sắc. Đăng ký tài khoản để thêm những chiếc bánh độc đáo của riêng bạn và chia sẻ với cộng đồng.
       </div>
     </section>
 
@@ -538,6 +663,9 @@
 
       <!-- PROFILE PANEL -->
       <div id="panel-profile" class="panel">
+        <div class="stats-grid" id="profile-stats">
+          <!-- Thống kê sẽ được cập nhật ở đây -->
+        </div>
         <div class="profileView" id="profileBlock" aria-live="polite">
           <div class="avatar" id="profileAvatar">
             <img src="https://via.placeholder.com/300x300.png?text=Avatar" alt="Avatar người dùng">
@@ -550,7 +678,6 @@
           </div>
           <div class="profileActions">
             <button class="btnPrimary" id="btn-edit-profile">Sửa Profile</button>
-            <button class="btnSecondary" id="btn-change-password">Đổi Mật khẩu</button>
             <button class="btnPrimary" id="btn-logout">Đăng xuất</button>
           </div>
         </div>
@@ -574,11 +701,31 @@
         
         <!-- Filter Options -->
         <div class="filterOptions">
-          <select id="filter-category">
-            <option value="">Tất cả loại bánh</option>
-          </select>
-          <input type="number" id="filter-min-price" placeholder="Giá tối thiểu">
-          <input type="number" id="filter-max-price" placeholder="Giá tối đa">
+          <div class="filter-group">
+            <div class="filter-label">Loại bánh</div>
+            <select id="filter-category">
+              <option value="">Tất cả loại bánh</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <div class="filter-label">Giá từ</div>
+            <input type="number" id="filter-min-price" placeholder="Giá tối thiểu">
+          </div>
+          <div class="filter-group">
+            <div class="filter-label">Đến</div>
+            <input type="number" id="filter-max-price" placeholder="Giá tối đa">
+          </div>
+          <div class="filter-group">
+            <div class="filter-label">Sắp xếp</div>
+            <select id="filter-sort">
+              <option value="">Mặc định</option>
+              <option value="price_asc">Giá tăng dần</option>
+              <option value="price_desc">Giá giảm dần</option>
+              <option value="name_asc">Tên A-Z</option>
+              <option value="name_desc">Tên Z-A</option>
+              <option value="created_at_desc">Mới nhất</option>
+            </select>
+          </div>
         </div>
         
         <!-- Cakes Grid -->
@@ -612,6 +759,17 @@
           <!-- Pagination will be generated here -->
         </div>
       </div>
+
+      <!-- CAKE DETAIL PANEL -->
+      <div id="panel-cake-detail" class="panel cake-detail">
+        <button class="back-button" id="btn-back-to-cakes">
+          ← Quay lại danh sách bánh
+        </button>
+        
+        <div class="cake-detail-content" id="cake-detail-content">
+          <!-- Cake detail will be loaded here -->
+        </div>
+      </div>
     </section>
   </div>
 
@@ -639,27 +797,6 @@
     </div>
   </div>
   
-  <!-- Modal Change Password -->
-  <div class="modal-overlay" id="modal-change-password">
-    <div class="modal">
-      <div class="modal-header">
-        <h2 class="modal-title">Đổi mật khẩu</h2>
-        <button class="modal-close" id="close-change-password">&times;</button>
-      </div>
-      <div class="modal-body">
-        <form id="form-change-password">
-          <input type="password" id="current_password" placeholder="Mật khẩu hiện tại" required aria-label="Mật khẩu hiện tại">
-          <input type="password" id="new_password" placeholder="Mật khẩu mới" required aria-label="Mật khẩu mới">
-          <input type="password" id="confirm_password" placeholder="Xác nhận mật khẩu mới" required aria-label="Xác nhận mật khẩu mới">
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button class="btnPrimary" id="btn-cancel-password">Hủy</button>
-        <button class="btnSecondary" id="btn-save-password">Đổi mật khẩu</button>
-      </div>
-    </div>
-  </div>
-  
   <!-- Modal Add/Edit Cake -->
   <div class="modal-overlay" id="modal-cake">
     <div class="modal">
@@ -670,7 +807,10 @@
       <div class="modal-body">
         <form id="form-cake">
           <input type="text" id="cake_name" placeholder="Tên bánh" required aria-label="Tên bánh">
-          <input type="text" id="cake_category" placeholder="Loại bánh" required aria-label="Loại bánh">
+          <input type="text" id="cake_category" placeholder="Loại bánh" required aria-label="Loại bánh" list="categories-list">
+          <datalist id="categories-list">
+            <!-- Categories will be populated here -->
+          </datalist>
           <input type="number" id="cake_price" placeholder="Giá bánh" required aria-label="Giá bánh">
           <input type="url" id="cake_image" placeholder="URL hình ảnh" required aria-label="URL hình ảnh">
           <textarea id="cake_description" placeholder="Mô tả bánh" style="width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(20,20,20,0.1); min-height:80px; resize: vertical;" aria-label="Mô tả bánh"></textarea>
@@ -696,9 +836,9 @@
     const panelProfile = document.getElementById('panel-profile');
     const panelCakes = document.getElementById('panel-cakes');
     const panelMyCakes = document.getElementById('panel-my-cakes');
+    const panelCakeDetail = document.getElementById('panel-cake-detail');
     const toastEl = document.getElementById('toast');
     const modalEditProfile = document.getElementById('modal-edit-profile');
-    const modalChangePassword = document.getElementById('modal-change-password');
     const modalCake = document.getElementById('modal-cake');
     
     // State
@@ -709,12 +849,18 @@
     let currentSearchQuery = '';
     let currentMinPrice = '';
     let currentMaxPrice = '';
+    let currentSort = '';
     let editingCakeId = null;
     let categories = [];
+    let userStats = {
+      totalCakes: 0,
+      myCakes: 0,
+      totalCategories: 0
+    };
 
     // Helpers: toast
     let toastTimer = null;
-    function toast(msg, isError=false, isSuccess=false){
+    function toast(msg, isError=false, isSuccess=false, isWarning=false){
       toastEl.textContent = msg;
       toastEl.className = 'toast';
       
@@ -724,6 +870,9 @@
       } else if (isError) {
         toastEl.classList.add('error');
         toastEl.innerHTML = `<span class="toast-icon">✗</span> ${msg}`;
+      } else if (isWarning) {
+        toastEl.classList.add('warning');
+        toastEl.innerHTML = `<span class="toast-icon">⚠</span> ${msg}`;
       } else {
         toastEl.innerHTML = `<span class="toast-icon">ℹ</span> ${msg}`;
       }
@@ -785,7 +934,7 @@
     // Tab switching
     function switchTo(name){
       // Hide all panels
-      const panels = [panelRegister, panelLogin, panelProfile, panelCakes, panelMyCakes];
+      const panels = [panelRegister, panelLogin, panelProfile, panelCakes, panelMyCakes, panelCakeDetail];
       panels.forEach(panel => {
         panel.style.display = 'none';
       });
@@ -812,6 +961,7 @@
           document.getElementById('tab-profile').classList.add('active');
           document.getElementById('panel-title').textContent = 'Thông tin cá nhân';
           document.getElementById('panel-subtitle').textContent = 'Quản lý thông tin tài khoản';
+          loadUserStats();
           break;
         case 'cakes':
           panelCakes.style.display = 'block';
@@ -826,6 +976,11 @@
           document.getElementById('panel-title').textContent = 'Bánh của tôi';
           document.getElementById('panel-subtitle').textContent = 'Quản lý bánh bạn đã tạo';
           loadMyCakes();
+          break;
+        case 'cake-detail':
+          panelCakeDetail.style.display = 'block';
+          document.getElementById('panel-title').textContent = 'Chi tiết bánh';
+          document.getElementById('panel-subtitle').textContent = 'Thông tin chi tiết về bánh';
           break;
       }
     }
@@ -885,22 +1040,17 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body)
         });
-        const data = await res.json().catch(()=> null);
+        const data = await res.json();
         
-        if(res.ok && (data && (data.success || res.status === 201))){
-          // prefer token from response.data.token
-          const token = data && data.data && data.data.token ? data.data.token : null;
+        if(res.ok && data.success){
+          const token = data.data.token;
           if(token) localStorage.setItem('auth_token', token);
           toast(data.message || 'Đăng ký thành công', false, true);
-          // Load profile if token exists
-          if(token) { 
-            await loadProfile(); 
-            updateTabs();
-            switchTo('profile'); 
-          }
-          else switchTo('login');
+          await loadProfile(); 
+          updateTabs();
+          switchTo('profile'); 
         } else {
-          const errMsg = (data && (data.error || data.message)) || `Lỗi đăng ký (Mã ${res.status})`;
+          const errMsg = data.message || `Lỗi đăng ký (Mã ${res.status})`;
           toast(errMsg, true);
         }
       } catch(err){
@@ -929,9 +1079,9 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body)
         });
-        const data = await res.json().catch(()=> null);
-        if(res.ok && data && data.success){
-          const token = data.data && data.data.token ? data.data.token : null;
+        const data = await res.json();
+        if(res.ok && data.success){
+          const token = data.data.token;
           if(!token){ toast('Server không trả token', true); return; }
           localStorage.setItem('auth_token', token);
           toast('Đăng nhập thành công', false, true);
@@ -939,7 +1089,7 @@
           updateTabs();
           switchTo('cakes');
         } else {
-          const errMsg = (data && (data.error || data.message)) || `Lỗi đăng nhập (Mã ${res.status})`;
+          const errMsg = data.message || `Lỗi đăng nhập (Mã ${res.status})`;
           toast(errMsg, true);
         }
       } catch(err){
@@ -966,13 +1116,12 @@
           method: 'GET',
           headers: { 'Authorization': 'Bearer ' + token }
         });
-        const data = await res.json().catch(()=> null);
-        if(res.ok && data && data.success){
+        const data = await res.json();
+        if(res.ok && data.success){
           currentUser = data.data;
           renderProfile(data.data);
         } else {
-          // Token invalid or other errors
-          const errMsg = (data && (data.error || data.message)) || `Không lấy được profile (Mã ${res.status})`;
+          const errMsg = data.message || `Không lấy được profile (Mã ${res.status})`;
           toast(errMsg, true);
           if(res.status === 401) {
             localStorage.removeItem('auth_token');
@@ -1000,6 +1149,58 @@
       document.getElementById('edit_fullname').value = u.full_name || '';
       document.getElementById('edit_email').value = u.email || '';
       document.getElementById('edit_avatar').value = u.avatar || '';
+    }
+
+    // Load user statistics
+    async function loadUserStats() {
+      const token = getToken();
+      if (!token) return;
+
+      try {
+        // Load user's cakes count
+        const myCakesRes = await fetch(`${CAKES_BASE}/my?page=1&limit=1`, {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const myCakesData = await myCakesRes.json();
+        
+        // Load total cakes count
+        const allCakesRes = await fetch(`${CAKES_BASE}?page=1&limit=1`);
+        const allCakesData = await allCakesRes.json();
+        
+        // Load categories count
+        const categoriesRes = await fetch(`${CAKES_BASE}/categories/list`);
+        const categoriesData = await categoriesRes.json();
+
+        if (myCakesRes.ok && allCakesRes.ok && categoriesRes.ok) {
+          userStats = {
+            myCakes: myCakesData.pagination?.total || 0,
+            totalCakes: allCakesData.pagination?.total || 0,
+            totalCategories: categoriesData.data?.length || 0
+          };
+          
+          renderUserStats();
+        }
+      } catch (err) {
+        console.error('Lỗi khi tải thống kê:', err);
+      }
+    }
+
+    function renderUserStats() {
+      const statsContainer = document.getElementById('profile-stats');
+      statsContainer.innerHTML = `
+        <div class="stat-card">
+          <div class="stat-label">Tổng số bánh</div>
+          <div class="stat-value">${userStats.totalCakes}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Bánh của tôi</div>
+          <div class="stat-value">${userStats.myCakes}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Loại bánh</div>
+          <div class="stat-value">${userStats.totalCategories}</div>
+        </div>
+      `;
     }
 
     // Edit Profile
@@ -1042,13 +1243,13 @@
           },
           body: JSON.stringify(body)
         });
-        const data = await res.json().catch(()=> null);
-        if(res.ok && data && data.success){
+        const data = await res.json();
+        if(res.ok && data.success){
           toast('Cập nhật thông tin thành công', false, true);
           modalEditProfile.classList.remove('active');
-          await loadProfile(); // Reload profile to show updated info
+          await loadProfile();
         } else {
-          const errMsg = (data && (data.error || data.message)) || `Lỗi cập nhật (Mã ${res.status})`;
+          const errMsg = data.message || `Lỗi cập nhật (Mã ${res.status})`;
           toast(errMsg, true);
         }
       } catch(err){
@@ -1057,91 +1258,23 @@
       }
     });
 
-    // Change Password
-    document.getElementById('btn-change-password').addEventListener('click', () => {
-      modalChangePassword.classList.add('active');
-    });
-    
-    document.getElementById('close-change-password').addEventListener('click', () => {
-      modalChangePassword.classList.remove('active');
-    });
-    
-    document.getElementById('btn-cancel-password').addEventListener('click', () => {
-      modalChangePassword.classList.remove('active');
-    });
-    
-    document.getElementById('btn-save-password').addEventListener('click', async () => {
-      const token = getToken();
-      if(!token){
-        toast('Chưa đăng nhập', true);
-        return;
-      }
-      
-      const currentPassword = document.getElementById('current_password').value;
-      const newPassword = document.getElementById('new_password').value;
-      const confirmPassword = document.getElementById('confirm_password').value;
-      
-      if(!currentPassword || !newPassword || !confirmPassword){
-        toast('Vui lòng điền đầy đủ các trường', true);
-        return;
-      }
-      
-      if(newPassword !== confirmPassword){
-        toast('Mật khẩu mới không khớp', true);
-        return;
-      }
-      
-      const body = {
-        current_password: currentPassword,
-        new_password: newPassword
-      };
-      
-      try{
-        const res = await fetch(`${AUTH_BASE}/change-password`, {
-          method: 'PUT',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-          },
-          body: JSON.stringify(body)
-        });
-        const data = await res.json().catch(()=> null);
-        if(res.ok && data && data.success){
-          toast('Đổi mật khẩu thành công', false, true);
-          modalChangePassword.classList.remove('active');
-          // Clear password fields
-          document.getElementById('current_password').value = '';
-          document.getElementById('new_password').value = '';
-          document.getElementById('confirm_password').value = '';
-        } else {
-          const errMsg = (data && (data.error || data.message)) || `Lỗi đổi mật khẩu (Mã ${res.status})`;
-          toast(errMsg, true);
-        }
-      } catch(err){
-        console.error(err);
-        toast('Lỗi kết nối server. Kiểm tra API và CORS', true);
-      }
-    });
-
-    // === CAKES FUNCTIONS ===
+    // === CAKES FUNCTIONS - TÍCH HỢP ĐẦY ĐỦ APIs ===
     async function loadCakes(page = 1, limit = 10) {
       try {
-        let url = `${CAKES_BASE}?page=${page}&limit=${limit}`;
+        let url;
+        const useSearchAPI = currentSearchQuery || currentMinPrice || currentMaxPrice || currentSort;
         
-        if (currentCategory) {
-          url += `&category=${encodeURIComponent(currentCategory)}`;
-        }
-        
-        if (currentSearchQuery) {
-          url += `&q=${encodeURIComponent(currentSearchQuery)}`;
-          
-          if (currentMinPrice) {
-            url += `&minPrice=${currentMinPrice}`;
-          }
-          
-          if (currentMaxPrice) {
-            url += `&maxPrice=${currentMaxPrice}`;
-          }
+        if (useSearchAPI) {
+          // SỬ DỤNG API SEARCH NÂNG CAO
+          url = `${CAKES_BASE}/search?page=${page}&limit=${limit}`;
+          if (currentSearchQuery) url += `&q=${encodeURIComponent(currentSearchQuery)}`;
+          if (currentMinPrice) url += `&minPrice=${currentMinPrice}`;
+          if (currentMaxPrice) url += `&maxPrice=${currentMaxPrice}`;
+          if (currentSort) url += `&sort=${currentSort}`;
+        } else {
+          // SỬ DỤNG API LẤY DANH SÁCH THÔNG THƯỜNG
+          url = `${CAKES_BASE}?page=${page}&limit=${limit}`;
+          if (currentCategory) url += `&category=${encodeURIComponent(currentCategory)}`;
         }
         
         const res = await fetch(url);
@@ -1167,6 +1300,7 @@
       }
       
       try {
+        // SỬ DỤNG API LẤY BÁNH CỦA USER
         const res = await fetch(`${CAKES_BASE}/my?page=${page}&limit=${limit}`, {
           headers: {
             'Authorization': 'Bearer ' + token
@@ -1200,18 +1334,19 @@
           <div class="cakeName">${cake.name}</div>
           <div class="cakeCategory">${cake.category}</div>
           <div class="cakePrice">${formatPrice(cake.price)} VNĐ</div>
+          <div class="cakeDescription">${cake.description || 'Không có mô tả'}</div>
+          ${!isMyCakes ? `<div class="cakeCreator">Tạo bởi: ${cake.creator_name || cake.creator_username || 'Ẩn danh'}</div>` : ''}
           <div class="cakeActions">
             ${isMyCakes ? `
               <button class="btnOutline" onclick="editCake(${cake.id})">Sửa</button>
               <button class="btnPrimary" onclick="deleteCake(${cake.id})">Xóa</button>
             ` : `
-              <button class="btnOutline" onclick="viewCake(${cake.id})">Xem</button>
+              <button class="btnOutline" onclick="viewCakeDetail(${cake.id})">Xem chi tiết</button>
             `}
           </div>
         </div>
       `).join('');
       
-      // Render pagination
       renderPagination(pagination, paginationId, isMyCakes ? loadMyCakes : loadCakes);
     }
     
@@ -1226,14 +1361,12 @@
       
       let paginationHTML = '';
       
-      // Previous button
       if (page > 1) {
         paginationHTML += `<button onclick="${loadFunction.name}(${page - 1})">‹</button>`;
       } else {
         paginationHTML += `<button disabled>‹</button>`;
       }
       
-      // Page numbers
       const maxVisiblePages = 5;
       let startPage = Math.max(1, page - Math.floor(maxVisiblePages / 2));
       let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
@@ -1250,7 +1383,6 @@
         }
       }
       
-      // Next button
       if (page < totalPages) {
         paginationHTML += `<button onclick="${loadFunction.name}(${page + 1})">›</button>`;
       } else {
@@ -1264,6 +1396,40 @@
       return new Intl.NumberFormat('vi-VN').format(price);
     }
     
+    // Load categories và tích hợp autocomplete
+    async function loadCategories() {
+      try {
+        const res = await fetch(`${CAKES_BASE}/categories/list`);
+        const data = await res.json();
+        
+        if (res.ok && data.success) {
+          categories = data.data;
+          const categorySelect = document.getElementById('filter-category');
+          const categoryDatalist = document.getElementById('categories-list');
+          
+          // Clear existing options
+          categorySelect.innerHTML = '<option value="">Tất cả loại bánh</option>';
+          categoryDatalist.innerHTML = '';
+          
+          // Populate select and datalist
+          categories.forEach(cat => {
+            // For filter select
+            const option = document.createElement('option');
+            option.value = cat.category;
+            option.textContent = `${cat.category} (${cat.count})`;
+            categorySelect.appendChild(option);
+            
+            // For autocomplete datalist
+            const datalistOption = document.createElement('option');
+            datalistOption.value = cat.category;
+            categoryDatalist.appendChild(datalistOption);
+          });
+        }
+      } catch (err) {
+        console.error('Lỗi khi tải danh mục:', err);
+      }
+    }
+
     // Add Cake
     document.getElementById('btn-add-cake').addEventListener('click', () => {
       editingCakeId = null;
@@ -1288,6 +1454,7 @@
       }
       
       try {
+        // SỬ DỤNG API LẤY CHI TIẾT BÁNH
         const res = await fetch(`${CAKES_BASE}/${cakeId}`, {
           headers: {
             'Authorization': 'Bearer ' + token
@@ -1303,7 +1470,7 @@
           document.getElementById('cake_category').value = cake.category;
           document.getElementById('cake_price').value = cake.price;
           document.getElementById('cake_image').value = cake.image;
-          document.getElementById('cake_description').value = cake.description;
+          document.getElementById('cake_description').value = cake.description || '';
           modalCake.classList.add('active');
         } else {
           toast('Lỗi khi tải thông tin bánh', true);
@@ -1314,15 +1481,16 @@
       }
     };
     
-    // View Cake
-    window.viewCake = async function(cakeId) {
+    // View Cake Detail - Mở trang chi tiết mới
+    window.viewCakeDetail = async function(cakeId) {
       try {
         const res = await fetch(`${CAKES_BASE}/${cakeId}`);
         const data = await res.json();
         
         if (res.ok && data.success) {
           const cake = data.data;
-          toast(`Bánh: ${cake.name} - ${formatPrice(cake.price)} VNĐ - ${cake.description}`, false, true);
+          renderCakeDetail(cake);
+          switchTo('cake-detail');
         } else {
           toast('Lỗi khi tải thông tin bánh', true);
         }
@@ -1331,6 +1499,30 @@
         toast('Lỗi kết nối server', true);
       }
     };
+    
+    function renderCakeDetail(cake) {
+      const detailContent = document.getElementById('cake-detail-content');
+      detailContent.innerHTML = `
+        <div>
+          <img src="${cake.image}" alt="${cake.name}" class="cake-detail-image" onerror="this.src='https://via.placeholder.com/300x200.png?text=Không+có+hình'">
+        </div>
+        <div class="cake-detail-info">
+          <h1 class="cake-detail-name">${cake.name}</h1>
+          <div class="cake-detail-price">${formatPrice(cake.price)} VNĐ</div>
+          <div class="cake-detail-category">${cake.category}</div>
+          <p class="cake-detail-description">${cake.description || 'Không có mô tả'}</p>
+          <div class="cake-detail-meta">
+            <div>Tạo bởi: ${cake.creator_name || cake.creator_username || 'Ẩn danh'}</div>
+            <div>Ngày tạo: ${new Date(cake.created_at).toLocaleDateString('vi-VN')}</div>
+          </div>
+        </div>
+      `;
+    }
+    
+    // Back button for cake detail
+    document.getElementById('btn-back-to-cakes').addEventListener('click', () => {
+      switchTo('cakes');
+    });
     
     // Delete Cake
     window.deleteCake = async function(cakeId) {
@@ -1353,9 +1545,10 @@
         
         if (res.ok && data.success) {
           toast('Xóa bánh thành công', false, true);
-          loadMyCakes(); // Reload my cakes
+          loadMyCakes();
+          loadUserStats(); // Update stats
         } else {
-          const errMsg = data && data.message ? data.message : 'Lỗi khi xóa bánh';
+          const errMsg = data.message || 'Lỗi khi xóa bánh';
           toast(errMsg, true);
         }
       } catch (err) {
@@ -1364,7 +1557,7 @@
       }
     };
     
-    // Save Cake
+    // Save Cake (Create or Update)
     document.getElementById('btn-save-cake').addEventListener('click', async () => {
       const token = getToken();
       if (!token) {
@@ -1382,6 +1575,11 @@
       
       if (!body.name || !body.category || !body.price || !body.image) {
         toast('Vui lòng điền đầy đủ thông tin bánh', true);
+        return;
+      }
+      
+      if (body.price <= 0) {
+        toast('Giá bánh phải lớn hơn 0', true);
         return;
       }
       
@@ -1403,19 +1601,18 @@
           toast(editingCakeId ? 'Cập nhật bánh thành công' : 'Thêm bánh thành công', false, true);
           modalCake.classList.remove('active');
           
-          // Reload the appropriate list
           if (editingCakeId) {
             loadMyCakes();
           } else {
-            // Check which panel is active and reload accordingly
             if (panelMyCakes.style.display !== 'none') {
               loadMyCakes();
             } else {
               loadCakes();
             }
           }
+          loadUserStats(); // Update stats
         } else {
-          const errMsg = data && data.message ? data.message : 'Lỗi khi lưu bánh';
+          const errMsg = data.message || 'Lỗi khi lưu bánh';
           toast(errMsg, true);
         }
       } catch (err) {
@@ -1433,42 +1630,62 @@
       modalCake.classList.remove('active');
     });
     
-    // Search Cakes
+    // Search Cakes với API Search nâng cao
     document.getElementById('btn-search').addEventListener('click', () => {
       currentSearchQuery = document.getElementById('search-query').value;
       currentCategory = document.getElementById('filter-category').value;
       currentMinPrice = document.getElementById('filter-min-price').value;
       currentMaxPrice = document.getElementById('filter-max-price').value;
-      loadCakes(1, currentLimit);
+      currentSort = document.getElementById('filter-sort').value;
+      currentPage = 1;
+      loadCakes(currentPage, currentLimit);
+    });
+
+    // Apply filters when they change
+    document.getElementById('filter-category').addEventListener('change', () => {
+      currentCategory = document.getElementById('filter-category').value;
+      currentPage = 1;
+      loadCakes(currentPage, currentLimit);
     });
     
-    // Load categories
-    async function loadCategories() {
-      try {
-        const res = await fetch(`${CAKES_BASE}/categories/list`);
-        const data = await res.json();
-        
-        if (res.ok && data.success) {
-          categories = data.data;
-          const categorySelect = document.getElementById('filter-category');
-          categorySelect.innerHTML = '<option value="">Tất cả loại bánh</option>';
-          
-          categories.forEach(cat => {
-            const option = document.createElement('option');
-            option.value = cat.category;
-            option.textContent = `${cat.category} (${cat.count})`;
-            categorySelect.appendChild(option);
-          });
-        }
-      } catch (err) {
-        console.error('Lỗi khi tải danh mục:', err);
-      }
+    document.getElementById('filter-sort').addEventListener('change', () => {
+      currentSort = document.getElementById('filter-sort').value;
+      currentPage = 1;
+      loadCakes(currentPage, currentLimit);
+    });
+
+    // Apply price filters when they lose focus
+    document.getElementById('filter-min-price').addEventListener('blur', () => {
+      currentMinPrice = document.getElementById('filter-min-price').value;
+      currentPage = 1;
+      loadCakes(currentPage, currentLimit);
+    });
+    
+    document.getElementById('filter-max-price').addEventListener('blur', () => {
+      currentMaxPrice = document.getElementById('filter-max-price').value;
+      currentPage = 1;
+      loadCakes(currentPage, currentLimit);
+    });
+
+    // Reset filters
+    function resetFilters() {
+      currentSearchQuery = '';
+      currentCategory = '';
+      currentMinPrice = '';
+      currentMaxPrice = '';
+      currentSort = '';
+      document.getElementById('search-query').value = '';
+      document.getElementById('filter-category').value = '';
+      document.getElementById('filter-min-price').value = '';
+      document.getElementById('filter-max-price').value = '';
+      document.getElementById('filter-sort').value = '';
     }
 
     // Logout
     document.getElementById('btn-logout').addEventListener('click', ()=>{
       localStorage.removeItem('auth_token');
       currentUser = null;
+      resetFilters();
       toast('Đã đăng xuất', false, true);
       updateTabs();
       switchTo('login');
@@ -1491,9 +1708,6 @@
     window.addEventListener('click', (e) => {
       if(e.target === modalEditProfile) {
         modalEditProfile.classList.remove('active');
-      }
-      if(e.target === modalChangePassword) {
-        modalChangePassword.classList.remove('active');
       }
       if(e.target === modalCake) {
         modalCake.classList.remove('active');
